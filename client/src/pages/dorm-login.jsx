@@ -2080,6 +2080,16 @@ function OccupantPortal({ user, onLogout }) {
 }
 const PAGE_TITLES = { dashboard: "Overview Dashboard", rooms: "Room Allocation", entry: "Entry & Attendance", maintenance: "Maintenance Requests", payments: "Fee & Payments", events: "Events & Announcements", inventory: "Inventory Tracking" };
 
+const PAGE_COMPONENTS = {
+  dashboard: Dashboard,
+  rooms: Rooms,
+  entry: Entry,
+  maintenance: Maintenance,
+  payments: Payments,
+  events: Events,
+  inventory: Inventory,
+};
+
 export default function App() {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState("dashboard");
