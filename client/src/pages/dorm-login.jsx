@@ -636,35 +636,35 @@ const styles = `
     .content { padding: 12px 10px 90px; }
   }
 
+  /* Occupant dashboard responsive */
+  @media (max-width: 900px) {
+    .occ-main-grid { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 600px) {
+    .occ-quick-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .occ-events-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 400px) {
+    .occ-events-grid { grid-template-columns: 1fr !important; }
+  }
+
   /* ── MOBILE FEATURE ACCORDION (login) ── */
   .login-mobile-features { display: none; } /* hidden on desktop — shown via media query above */
 
   .mob-feat-toggle {
-    width: 44px; height: 44px; padding: 0; border-radius: 10px;
-    border: 1.5px solid var(--border); background: var(--surface2);
-    color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all 0.18s; position: relative; flex-shrink: 0;
+    width: 100%; padding: 13px 16px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--surface2);
+    color: var(--text-muted); font-family: var(--syne); font-size: 13px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.18s; letter-spacing: 0.3px;
   }
-  .mob-feat-toggle:hover { border-color: var(--teal); color: var(--teal); background: var(--surface); }
+  .mob-feat-toggle:hover { border-color: var(--teal); color: var(--teal); }
   .mob-feat-toggle.open { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
-  
-  .mob-feat-hamburger { 
-    width: 22px; height: 16px; display: flex; flex-direction: column; justify-content: space-between;
-    position: relative; cursor: pointer;
+  .mob-feat-toggle-left { display: flex; align-items: center; gap: 8px; }
+  .mob-feat-chevron {
+    font-size: 16px; transition: transform 0.25s cubic-bezier(.4,0,.2,1); display: inline-block;
   }
-  .mob-feat-hamburger span {
-    width: 100%; height: 2px; background: currentColor; border-radius: 1px;
-    transition: all 0.3s cubic-bezier(.4,0,.2,1);
-  }
-  .mob-feat-hamburger.open span:nth-child(1) { 
-    transform: rotate(45deg) translate(5px, 7px);
-  }
-  .mob-feat-hamburger.open span:nth-child(2) { 
-    opacity: 0; transform: translateX(-10px);
-  }
-  .mob-feat-hamburger.open span:nth-child(3) { 
-    transform: rotate(-45deg) translate(5px, -7px);
-  }
+  .mob-feat-chevron.open { transform: rotate(180deg); }
 
   .mob-feat-panel {
     overflow: hidden; max-height: 0;
@@ -1501,20 +1501,15 @@ function Login({ onLogin }) {
 
           {/* ── MOBILE COLLAPSIBLE FEATURE PANEL ── */}
           <div className="login-mobile-features" style={{ marginTop: 24 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 0.3, flex: 1 }}>Platform Features</span>
-              <button
-                className={`mob-feat-toggle ${featOpen ? "open" : ""}`}
-                onClick={() => setFeatOpen(o => !o)}
-                title="Toggle platform features"
-              >
-                <div className={`mob-feat-hamburger ${featOpen ? "open" : ""}`}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </button>
-            </div>
+            <button
+              className={`mob-feat-toggle ${featOpen ? "open" : ""}`}
+              onClick={() => setFeatOpen(o => !o)}
+            >
+              <span className="mob-feat-toggle-left">
+                <span>✦</span> Explore Platform Modules
+              </span>
+              <span className={`mob-feat-chevron ${featOpen ? "open" : ""}`}>▾</span>
+            </button>
 
             <div className={`mob-feat-panel ${featOpen ? "open" : ""}`}>
               <div className="mob-feat-inner">
@@ -1609,72 +1604,265 @@ function OccupantPortal({ user, onLogout }) {
   const myRequests = MAINTENANCE_REQS.filter(r => r.room === user.room);
 
   const renderPage = () => {
-    if (page === "home") return (
-      <div className="fade-in">
-        {/* Welcome card */}
-        <div style={{ background: "linear-gradient(135deg, #131929 0%, #0f1a2e 100%)", border: "1px solid var(--border)", borderRadius: 16, padding: 28, marginBottom: 20, position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "radial-gradient(circle, rgba(77,159,255,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
-          <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6, fontFamily: "var(--syne)", letterSpacing: 1, textTransform: "uppercase" }}>Welcome back</div>
-          <div style={{ fontFamily: "var(--syne)", fontSize: 26, fontWeight: 800, color: "var(--text)", marginBottom: 4 }}>{user.name} 👋</div>
-          <div style={{ display: "flex", gap: 16, marginTop: 16, flexWrap: "wrap" }}>
-            <div style={{ background: "var(--blue-dim)", border: "1px solid rgba(77,159,255,0.2)", borderRadius: 10, padding: "10px 18px" }}>
-              <div style={{ fontSize: 11, color: "var(--blue)", fontWeight: 600, letterSpacing: 0.5 }}>ROOM</div>
-              <div style={{ fontFamily: "var(--syne)", fontSize: 22, fontWeight: 800, color: "var(--blue)" }}>{user.room}</div>
-            </div>
-            <div style={{ background: "var(--teal-dim)", border: "1px solid rgba(0,212,170,0.2)", borderRadius: 10, padding: "10px 18px" }}>
-              <div style={{ fontSize: 11, color: "var(--teal)", fontWeight: 600, letterSpacing: 0.5 }}>FLOOR</div>
-              <div style={{ fontFamily: "var(--syne)", fontSize: 22, fontWeight: 800, color: "var(--teal)" }}>{user.room[0]}</div>
-            </div>
-            <div style={{ background: "var(--teal-dim)", border: "1px solid rgba(0,212,170,0.2)", borderRadius: 10, padding: "10px 18px" }}>
-              <div style={{ fontSize: 11, color: "var(--teal)", fontWeight: 600, letterSpacing: 0.5 }}>STATUS</div>
-              <div style={{ fontFamily: "var(--syne)", fontSize: 16, fontWeight: 800, color: "var(--teal)", marginTop: 4 }}>Active Resident</div>
-            </div>
-          </div>
-        </div>
+    if (page === "home") {
+      const daysLeft = 3;
+      const occupancyStart = "Jan 6, 2025";
+      const occupancyEnd = "Jun 30, 2025";
+      const roommates = [
+        { name: "Liza Mendoza", initials: "LM", status: "In Dorm", color: "var(--teal)" },
+        { name: "Sofia Reyes", initials: "SR", status: "Out", color: "var(--text-muted)" },
+      ];
+      const notices = [
+        { icon: "💧", text: "Water interruption on Apr 2, 7–9 AM", time: "Today", type: "warning" },
+        { icon: "📋", text: "Room inspection scheduled for Apr 10", time: "Mar 28", type: "info" },
+        { icon: "🏆", text: "Your room won Cleanest Room — March!", time: "Mar 25", type: "success" },
+      ];
+      const quickActions = [
+        { icon: "🔧", label: "Report Issue", page: "myrequest", color: "var(--amber-dim)", border: "rgba(245,166,35,0.3)" },
+        { icon: "💳", label: "Pay Now", page: "mypayments", color: "var(--blue-dim)", border: "rgba(77,159,255,0.3)" },
+        { icon: "📅", label: "Events", page: "events", color: "var(--violet-dim)", border: "rgba(167,139,250,0.3)" },
+        { icon: "📦", label: "Borrow Item", page: "inventory", color: "var(--teal-dim)", border: "rgba(0,212,170,0.3)" },
+      ];
 
-        <div className="stat-grid" style={{ gridTemplateColumns: "repeat(3,1fr)" }}>
-          <div className="stat-card blue"><div className="stat-icon">💳</div><div className="stat-label">Payment Due</div><div className="stat-val">₱8,500</div><div className="stat-sub">Due Apr 1</div></div>
-          <div className="stat-card amber"><div className="stat-icon">🔧</div><div className="stat-label">My Requests</div><div className="stat-val">{myRequests.length}</div><div className="stat-sub">{myRequests.filter(r => r.status === "Pending").length} pending</div></div>
-          <div className="stat-card teal"><div className="stat-icon">📅</div><div className="stat-label">Events RSVP'd</div><div className="stat-val">{Object.values(rsvps).filter(Boolean).length}</div><div className="stat-sub">This month</div></div>
-        </div>
+      return (
+        <div className="fade-in">
+          {/* ── HERO WELCOME BANNER ── */}
+          <div style={{
+            background: "linear-gradient(135deg, #0f1a2e 0%, #131929 60%, #1a2236 100%)",
+            border: "1px solid var(--border)", borderRadius: 18, padding: "28px 28px 24px",
+            marginBottom: 20, position: "relative", overflow: "hidden",
+          }}>
+            {/* Background glow orbs */}
+            <div style={{ position: "absolute", top: -60, right: -40, width: 220, height: 220, borderRadius: "50%", background: "radial-gradient(circle, rgba(77,159,255,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -40, left: 60, width: 160, height: 160, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,212,170,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
 
-        <div className="two-col">
-          <div className="card">
-            <div className="p16" style={{ borderBottom: "1px solid var(--border)" }}><span className="section-title" style={{ margin: 0 }}>My Latest Payments</span></div>
-            {myPayments.length === 0 ? <div className="p16 text-muted">No payment records found.</div> : myPayments.map(p => (
-              <div key={p.id} className="flex-row" style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)" }}>
-                <div><div className="fw600 fs13">{p.type}</div><div className="text-muted" style={{ fontSize: 11 }}>{p.id} · Due {p.due}</div></div>
-                <div className="ml-auto" style={{ textAlign: "right" }}>
-                  <div style={{ fontFamily: "var(--syne)", fontWeight: 700, color: p.status === "Overdue" ? "var(--rose)" : "var(--text)" }}>₱{p.amount.toLocaleString()}</div>
-                  <StatusBadge status={p.status} />
+            <div style={{ position: "relative", display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+              <div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--syne)", letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 8 }}>
+                  Sunday, March 29, 2025
+                </div>
+                <div style={{ fontFamily: "var(--syne)", fontSize: 28, fontWeight: 800, color: "var(--text)", letterSpacing: -0.5, lineHeight: 1.2, marginBottom: 6 }}>
+                  Good morning, {user.name.split(" ")[0]} 👋
+                </div>
+                <div style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 20 }}>
+                  Here's what's happening in your dorm today.
+                </div>
+
+                {/* Room chips */}
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  {[
+                    { label: "ROOM", val: user.room, color: "var(--blue)", bg: "var(--blue-dim)", border: "rgba(77,159,255,0.25)" },
+                    { label: "FLOOR", val: user.room[0], color: "var(--teal)", bg: "var(--teal-dim)", border: "rgba(0,212,170,0.25)" },
+                    { label: "TYPE", val: "Double", color: "var(--violet)", bg: "var(--violet-dim)", border: "rgba(167,139,250,0.25)" },
+                    { label: "STATUS", val: "Active", color: "var(--teal)", bg: "var(--teal-dim)", border: "rgba(0,212,170,0.25)" },
+                  ].map(c => (
+                    <div key={c.label} style={{ background: c.bg, border: `1px solid ${c.border}`, borderRadius: 10, padding: "8px 14px", textAlign: "center" }}>
+                      <div style={{ fontSize: 9, color: c.color, fontWeight: 700, letterSpacing: 0.8, fontFamily: "var(--syne)" }}>{c.label}</div>
+                      <div style={{ fontFamily: "var(--syne)", fontSize: 16, fontWeight: 800, color: c.color, lineHeight: 1.2 }}>{c.val}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
+
+              {/* Occupancy countdown */}
+              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 14, padding: "16px 20px", minWidth: 160, textAlign: "center", flexShrink: 0 }}>
+                <div style={{ fontSize: 10, color: "var(--text-muted)", fontFamily: "var(--syne)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>Rent Due In</div>
+                <div style={{ fontFamily: "var(--syne)", fontSize: 40, fontWeight: 800, color: daysLeft <= 3 ? "var(--rose)" : "var(--amber)", letterSpacing: -2, lineHeight: 1 }}>{daysLeft}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>days</div>
+                <div style={{ marginTop: 10, fontSize: 11, color: "var(--text-dim)" }}>Apr 1 deadline</div>
+                <button style={{
+                  marginTop: 12, width: "100%", padding: "8px 0", borderRadius: 8, border: "none",
+                  background: "var(--blue)", color: "#0b0f1a", fontFamily: "var(--syne)", fontSize: 12,
+                  fontWeight: 700, cursor: "pointer",
+                }} onClick={() => setPage("mypayments")}>Pay Now →</button>
+              </div>
+            </div>
+          </div>
+
+          {/* ── QUICK ACTIONS ── */}
+          <div className="occ-quick-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 20 }}>
+            {quickActions.map(a => (
+              <button key={a.label} onClick={() => setPage(a.page)} style={{
+                background: a.color, border: `1px solid ${a.border}`, borderRadius: 14,
+                padding: "16px 10px", cursor: "pointer", textAlign: "center", transition: "all 0.18s",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.2)"; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
+              >
+                <span style={{ fontSize: 24 }}>{a.icon}</span>
+                <span style={{ fontSize: 12, fontWeight: 700, fontFamily: "var(--syne)", color: "var(--text)" }}>{a.label}</span>
+              </button>
             ))}
           </div>
 
-          <div className="card">
-            <div className="p16" style={{ borderBottom: "1px solid var(--border)" }}><span className="section-title" style={{ margin: 0 }}>Upcoming Events</span></div>
-            {EVENTS.slice(0, 3).map(ev => (
-              <div key={ev.id} className="flex-row" style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)", alignItems: "flex-start" }}>
-                <div style={{ background: "var(--blue-dim)", borderRadius: 8, padding: "6px 10px", textAlign: "center", minWidth: 44 }}>
-                  <div style={{ fontSize: 9, color: "var(--blue)", fontWeight: 700, textTransform: "uppercase" }}>{ev.month}</div>
-                  <div style={{ fontFamily: "var(--syne)", fontSize: 18, fontWeight: 800, color: "var(--blue)", lineHeight: 1.1 }}>{ev.day}</div>
+          {/* ── STATS ROW ── */}
+          <div className="stat-grid" style={{ gridTemplateColumns: "repeat(4,1fr)", marginBottom: 20 }}>
+            <div className="stat-card blue">
+              <div className="stat-icon">💳</div>
+              <div className="stat-label">Rent Balance</div>
+              <div className="stat-val">₱8,500</div>
+              <div className="stat-sub">Due Apr 1</div>
+            </div>
+            <div className="stat-card amber">
+              <div className="stat-icon">🔧</div>
+              <div className="stat-label">My Requests</div>
+              <div className="stat-val">{myRequests.length}</div>
+              <div className="stat-sub">{myRequests.filter(r => r.status === "Pending").length} pending</div>
+            </div>
+            <div className="stat-card teal">
+              <div className="stat-icon">📅</div>
+              <div className="stat-label">Events RSVP'd</div>
+              <div className="stat-val">{Object.values(rsvps).filter(Boolean).length}</div>
+              <div className="stat-sub">This month</div>
+            </div>
+            <div className="stat-card rose">
+              <div className="stat-icon">📦</div>
+              <div className="stat-label">Items Borrowed</div>
+              <div className="stat-val">2</div>
+              <div className="stat-sub">1 overdue return</div>
+            </div>
+          </div>
+
+          {/* ── MAIN GRID ── */}
+          <div className="occ-main-grid" style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, marginBottom: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+              {/* Payment summary card */}
+              <div className="card">
+                <div className="p16 flex-row" style={{ borderBottom: "1px solid var(--border)" }}>
+                  <span className="section-title" style={{ margin: 0 }}>💳 My Payments</span>
+                  <button className="btn btn-ghost btn-sm ml-auto" onClick={() => setPage("mypayments")}>View All →</button>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div className="fs13 fw600">{ev.title}</div>
-                  <div className="text-muted" style={{ fontSize: 11 }}>{ev.time} · {ev.venue}</div>
+                <div style={{ padding: "12px 16px" }}>
+                  {/* Progress bar: paid portion */}
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                    <span style={{ fontSize: 12, color: "var(--text-muted)" }}>April Rent Progress</span>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "var(--blue)" }}>₱0 / ₱8,500</span>
+                  </div>
+                  <div className="progress-bar" style={{ height: 8, marginBottom: 16 }}>
+                    <div className="progress-fill" style={{ width: "0%", background: "var(--blue)" }} />
+                  </div>
+                  {[...myPayments, { id: "INV-2311", amount: 1100, type: "Utilities", due: "Mar 1", status: "Paid" }].map(p => (
+                    <div key={p.id} className="flex-row" style={{ padding: "11px 0", borderBottom: "1px solid var(--border)" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: p.status === "Paid" ? "var(--teal-dim)" : p.status === "Overdue" ? "var(--rose-dim)" : "var(--amber-dim)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>
+                        {p.status === "Paid" ? "✅" : p.status === "Overdue" ? "🚨" : "⏳"}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div className="fw600 fs13">{p.type}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{p.id} · Due {p.due}</div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontFamily: "var(--syne)", fontWeight: 700, fontSize: 14, color: p.status === "Overdue" ? "var(--rose)" : p.status === "Pending" ? "var(--amber)" : "var(--text)" }}>₱{p.amount.toLocaleString()}</div>
+                        <StatusBadge status={p.status} />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                {!ev.mandatory && (
-                  <button className={`btn btn-sm ${rsvps[ev.id] ? "btn-teal" : "btn-ghost"}`} onClick={() => setRsvps(p => ({ ...p, [ev.id]: !p[ev.id] }))}>
-                    {rsvps[ev.id] ? "✓" : "RSVP"}
-                  </button>
-                )}
               </div>
-            ))}
+
+              {/* My Maintenance Requests */}
+              <div className="card">
+                <div className="p16 flex-row" style={{ borderBottom: "1px solid var(--border)" }}>
+                  <span className="section-title" style={{ margin: 0 }}>🔧 My Requests</span>
+                  <button className="btn btn-teal btn-sm ml-auto" onClick={() => { setPage("myrequest"); setShowReqForm(true); }}>+ New</button>
+                </div>
+                {myRequests.length === 0
+                  ? <div className="p16" style={{ color: "var(--text-muted)", fontSize: 13 }}>No requests yet.</div>
+                  : myRequests.map(r => (
+                    <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", borderBottom: "1px solid var(--border)" }}>
+                      <div style={{ width: 38, height: 38, borderRadius: 10, background: r.priority === "High" ? "var(--rose-dim)" : r.priority === "Medium" ? "var(--amber-dim)" : "var(--teal-dim)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{r.icon}</div>
+                      <div style={{ flex: 1 }}>
+                        <div className="fw600 fs13">{r.title}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{r.category} · {r.submitted}</div>
+                      </div>
+                      <StatusBadge status={r.status} />
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+              {/* Occupancy info */}
+              <div className="card p16">
+                <div className="section-title">🏠 Occupancy Details</div>
+                {[
+                  { label: "Room Number", val: user.room },
+                  { label: "Floor", val: `Floor ${user.room[0]}` },
+                  { label: "Type", val: "Double Occupancy" },
+                  { label: "Start Date", val: occupancyStart },
+                  { label: "End Date", val: occupancyEnd },
+                  { label: "Monthly Rate", val: "₱8,500" },
+                ].map(row => (
+                  <div key={row.label} className="flex-row" style={{ padding: "9px 0", borderBottom: "1px solid var(--border)" }}>
+                    <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{row.label}</span>
+                    <span className="ml-auto fw600" style={{ fontSize: 13 }}>{row.val}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Roommates */}
+              <div className="card p16">
+                <div className="section-title">👥 Roommates</div>
+                {roommates.map(r => (
+                  <div key={r.name} className="flex-row" style={{ padding: "10px 0", borderBottom: "1px solid var(--border)" }}>
+                    <div style={{ width: 34, height: 34, borderRadius: "50%", background: `linear-gradient(135deg, ${r.color}, var(--violet))`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: "#0b0f1a", flexShrink: 0 }}>{r.initials}</div>
+                    <div>
+                      <div className="fw600 fs13">{r.name}</div>
+                      <div style={{ fontSize: 11, color: r.status === "In Dorm" ? "var(--teal)" : "var(--text-muted)" }}>● {r.status}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Notices */}
+              <div className="card p16">
+                <div className="section-title">📢 Latest Notices</div>
+                {notices.map((n, i) => (
+                  <div key={i} style={{ display: "flex", gap: 10, padding: "10px 0", borderBottom: i < notices.length - 1 ? "1px solid var(--border)" : "none", alignItems: "flex-start" }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: n.type === "warning" ? "var(--amber-dim)" : n.type === "success" ? "var(--teal-dim)" : "var(--blue-dim)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{n.icon}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--text)", lineHeight: 1.4 }}>{n.text}</div>
+                      <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>{n.time}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── EVENTS STRIP ── */}
+          <div className="card">
+            <div className="p16 flex-row" style={{ borderBottom: "1px solid var(--border)" }}>
+              <span className="section-title" style={{ margin: 0 }}>📅 Upcoming Events</span>
+              <button className="btn btn-ghost btn-sm ml-auto" onClick={() => setPage("events")}>See All →</button>
+            </div>
+            <div className="occ-events-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 0 }}>
+              {EVENTS.map((ev, i) => (
+                <div key={ev.id} style={{ padding: "14px 16px", borderRight: i < EVENTS.length - 1 ? "1px solid var(--border)" : "none", borderBottom: "none", display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <div style={{ background: "var(--blue-dim)", border: "1px solid rgba(77,159,255,0.2)", borderRadius: 10, padding: "8px 10px", textAlign: "center", flexShrink: 0, minWidth: 46 }}>
+                    <div style={{ fontSize: 9, color: "var(--blue)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>{ev.month}</div>
+                    <div style={{ fontFamily: "var(--syne)", fontSize: 20, fontWeight: 800, color: "var(--blue)", lineHeight: 1.1 }}>{ev.day}</div>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 3, lineHeight: 1.3 }}>{ev.title}</div>
+                    <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>{ev.time}</div>
+                    {!ev.mandatory
+                      ? <button className={`btn btn-sm ${rsvps[ev.id] ? "btn-teal" : "btn-ghost"}`} onClick={() => setRsvps(p => ({ ...p, [ev.id]: !p[ev.id] }))}>
+                          {rsvps[ev.id] ? "✓ RSVP'd" : "RSVP"}
+                        </button>
+                      : <span className="badge rose">Mandatory</span>
+                    }
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
 
     if (page === "mypayments") return (
       <div className="fade-in">
