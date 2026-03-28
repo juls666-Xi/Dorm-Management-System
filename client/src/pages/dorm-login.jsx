@@ -640,19 +640,31 @@ const styles = `
   .login-mobile-features { display: none; } /* hidden on desktop — shown via media query above */
 
   .mob-feat-toggle {
-    width: 100%; padding: 13px 16px; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--surface2);
-    color: var(--text-muted); font-family: var(--syne); font-size: 13px; font-weight: 700;
-    cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-    transition: all 0.18s; letter-spacing: 0.3px;
+    width: 44px; height: 44px; padding: 0; border-radius: 10px;
+    border: 1.5px solid var(--border); background: var(--surface2);
+    color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s; position: relative; flex-shrink: 0;
   }
-  .mob-feat-toggle:hover { border-color: var(--teal); color: var(--teal); }
+  .mob-feat-toggle:hover { border-color: var(--teal); color: var(--teal); background: var(--surface); }
   .mob-feat-toggle.open { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
-  .mob-feat-toggle-left { display: flex; align-items: center; gap: 8px; }
-  .mob-feat-chevron {
-    font-size: 16px; transition: transform 0.25s cubic-bezier(.4,0,.2,1); display: inline-block;
+  
+  .mob-feat-hamburger { 
+    width: 22px; height: 16px; display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; cursor: pointer;
   }
-  .mob-feat-chevron.open { transform: rotate(180deg); }
+  .mob-feat-hamburger span {
+    width: 100%; height: 2px; background: currentColor; border-radius: 1px;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  .mob-feat-hamburger.open span:nth-child(1) { 
+    transform: rotate(45deg) translate(5px, 7px);
+  }
+  .mob-feat-hamburger.open span:nth-child(2) { 
+    opacity: 0; transform: translateX(-10px);
+  }
+  .mob-feat-hamburger.open span:nth-child(3) { 
+    transform: rotate(-45deg) translate(5px, -7px);
+  }
 
   .mob-feat-panel {
     overflow: hidden; max-height: 0;
@@ -1489,15 +1501,20 @@ function Login({ onLogin }) {
 
           {/* ── MOBILE COLLAPSIBLE FEATURE PANEL ── */}
           <div className="login-mobile-features" style={{ marginTop: 24 }}>
-            <button
-              className={`mob-feat-toggle ${featOpen ? "open" : ""}`}
-              onClick={() => setFeatOpen(o => !o)}
-            >
-              <span className="mob-feat-toggle-left">
-                <span>✦</span> Explore Platform Modules
-              </span>
-              <span className={`mob-feat-chevron ${featOpen ? "open" : ""}`}>▾</span>
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 0.3, flex: 1 }}>Platform Features</span>
+              <button
+                className={`mob-feat-toggle ${featOpen ? "open" : ""}`}
+                onClick={() => setFeatOpen(o => !o)}
+                title="Toggle platform features"
+              >
+                <div className={`mob-feat-hamburger ${featOpen ? "open" : ""}`}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+            </div>
 
             <div className={`mob-feat-panel ${featOpen ? "open" : ""}`}>
               <div className="mob-feat-inner">
