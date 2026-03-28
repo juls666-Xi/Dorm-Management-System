@@ -27,7 +27,7 @@ const styles = `
     --dm: 'DM Sans', sans-serif;
   }
 
-  body { background: var(--bg); font-family: var(--dm); color: var(--text); overflow: hidden; }
+  body { background: var(--bg); font-family: var(--dm); color: var(--text); overflow-x: hidden; }
 
   .app { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
 
@@ -366,64 +366,60 @@ const styles = `
   .login-quick-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
 
   .login-right {
-    width: 400px; flex-shrink: 0; background: var(--surface); border-left: 1px solid var(--border);
-    display: flex; flex-direction: column; padding: 48px 36px; position: relative; overflow: hidden;
+    width: 280px; flex-shrink: 0; background: var(--surface); border-left: 1px solid var(--border);
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
   }
   .login-right::before {
-    content: ''; position: absolute; bottom: -80px; right: -80px; width: 300px; height: 300px;
-    border-radius: 50%; background: radial-gradient(circle, rgba(0,212,170,0.07) 0%, transparent 70%);
+    content: ''; position: absolute; bottom: -80px; right: -80px; width: 260px; height: 260px;
+    border-radius: 50%; background: radial-gradient(circle, rgba(0,212,170,0.05) 0%, transparent 70%);
     pointer-events: none;
   }
-  .login-right-title { font-family: var(--syne); font-size: 14px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px; }
+  .lsb-header {
+    padding: 28px 20px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  .lsb-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .lsb-logo-icon {
+    width: 36px; height: 36px; background: var(--teal); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(0,212,170,0.3);
+  }
+  .lsb-logo-name { font-family: var(--syne); font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+  .lsb-logo-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 0.3px; }
+  .lsb-nav-label { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: var(--text-dim); text-transform: uppercase; font-family: var(--syne); }
 
-  /* MOBILE RESPONSIVE */
-  @media (max-width: 768px) {
-    .login-root { flex-direction: column; }
-    .login-left { padding: 40px 24px; }
-    .login-right { 
-      width: 100%; border-left: none; border-top: 1px solid var(--border);
-      padding: 28px 24px; max-height: 40vh; overflow-y: auto;
-    }
-    .login-right::before { bottom: -60px; right: -60px; width: 200px; height: 200px; }
-    .login-brand { margin-bottom: 32px; }
-    .login-brand-icon { width: 40px; height: 40px; font-size: 20px; }
-    .login-brand-name { font-size: 22px; }
-    .login-form-wrap { max-width: 100%; }
-    .login-heading { font-size: 22px; }
-    .login-feature { padding: 14px 0; }
-    .login-feature-icon { width: 32px; height: 32px; font-size: 16px; }
+  .lsb-nav { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+  .lsb-item {
+    display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px;
+    cursor: pointer; border: 1px solid transparent; transition: all 0.15s; position: relative;
   }
+  .lsb-item:hover { background: var(--surface2); }
+  .lsb-item.lsb-active { background: var(--teal-dim); border-color: rgba(0,212,170,0.2); }
+  .lsb-item.lsb-active .lsb-item-icon { background: rgba(0,212,170,0.2); }
+  .lsb-item-icon {
+    width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center;
+    justify-content: center; font-size: 17px; flex-shrink: 0; background: var(--surface2);
+    transition: background 0.15s;
+  }
+  .lsb-item-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+  .lsb-item-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; line-height: 1.4; }
+  .lsb-item-arrow {
+    margin-left: auto; font-size: 12px; color: var(--text-dim); flex-shrink: 0;
+    transition: transform 0.15s, color 0.15s;
+  }
+  .lsb-item:hover .lsb-item-arrow { color: var(--teal); }
+  .lsb-item.lsb-active .lsb-item-arrow { color: var(--teal); transform: translateX(2px); }
 
-  @media (max-width: 480px) {
-    .login-left { padding: 30px 16px; }
-    .login-right { padding: 20px 16px; max-height: 50vh; }
-    .login-brand { margin-bottom: 24px; }
-    .login-brand-icon { width: 36px; height: 36px; font-size: 18px; }
-    .login-brand-name { font-size: 18px; }
-    .login-heading { font-size: 18px; margin-bottom: 4px; }
-    .login-sub { font-size: 12px; margin-bottom: 24px; }
-    .login-form-wrap { max-width: 100%; }
-    .login-btn { padding: 12px; font-size: 13px; }
-    .login-input { padding: 10px 36px 10px 12px; font-size: 13px; }
-    .login-right-title { font-size: 12px; margin-bottom: 16px; }
-    .login-feature { padding: 12px 0; gap: 10px; }
-    .login-feature-icon { width: 28px; height: 28px; font-size: 14px; }
-    .login-feature-name { font-size: 12px; }
-    .login-feature-desc { font-size: 11px; }
-    .login-footer-text { font-size: 11px; }
+  .lsb-detail {
+    margin: 0 12px 12px; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; flex-shrink: 0; transition: all 0.2s;
+    animation: fadeIn 0.25s ease;
   }
+  .lsb-detail-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .lsb-detail-body { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
 
-  .login-feature {
-    display: flex; align-items: flex-start; gap: 14px; padding: 18px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .login-feature:last-of-type { border-bottom: none; }
-  .login-feature-icon {
-    width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
-  }
-  .login-feature-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
-  .login-feature-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .lsb-footer { padding: 14px 16px; border-top: 1px solid var(--border); flex-shrink: 0; }
+  .lsb-status { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--text-dim); }
+  .lsb-status-dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; animation: pulse 1.5s infinite; flex-shrink: 0; }
 
   .login-footer { margin-top: auto; padding-top: 28px; border-top: 1px solid var(--border); }
   .login-footer-text { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
@@ -481,6 +477,216 @@ const styles = `
     padding: 28px; width: 480px; max-width: 95vw; animation: fadeIn 0.25s ease;
   }
   .modal-title { font-family: var(--syne); font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+  .modal { max-height: 90vh; overflow-y: auto; }
+
+  /* ── MOBILE DRAWER OVERLAY ── */
+  .drawer-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    z-index: 40; backdrop-filter: blur(2px);
+  }
+  .drawer-overlay.open { display: block; }
+
+  /* ── MOBILE BOTTOM NAV ── */
+  .mobile-bottom-nav {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--surface); border-top: 1px solid var(--border);
+    z-index: 50; padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+  }
+  .mobile-bottom-nav-inner { display: flex; justify-content: space-around; align-items: center; }
+  .mob-nav-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 6px 10px; border-radius: 10px; border: none; background: none;
+    color: var(--text-muted); cursor: pointer; font-family: var(--dm); font-size: 9px;
+    font-weight: 600; letter-spacing: 0.3px; min-width: 52px; transition: all 0.15s;
+  }
+  .mob-nav-btn .mob-icon { font-size: 20px; line-height: 1; }
+  .mob-nav-btn.active { color: var(--teal); }
+  .mob-nav-btn.active-blue { color: var(--blue); }
+  .mob-nav-more { position: relative; }
+
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 36px; height: 36px; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer; padding: 8px; flex-shrink: 0;
+  }
+  .hamburger span { display: block; height: 2px; background: var(--text-muted); border-radius: 2px; transition: all 0.2s; }
+
+  /* ── RESPONSIVE BREAKPOINTS ── */
+
+  /* Tablet: 768–1100px */
+  @media (max-width: 1100px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .main-side { grid-template-columns: 1fr; }
+    .login-right { width: 320px; padding: 36px 24px; }
+    .login-feature-desc { display: none; }
+    .topbar-search { min-width: 160px; }
+    .topbar-search input { width: 100px; }
+  }
+
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .three-col { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Mobile: ≤ 767px */
+  @media (max-width: 767px) {
+    /* Body & app */
+    body { overflow-x: hidden; }
+    .app { position: relative; }
+
+    /* Sidebar becomes a slide-in drawer */
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      transform: translateX(-100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1);
+      width: 260px !important; min-width: 260px !important;
+      box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+    }
+    .sidebar.open { transform: translateX(0); }
+
+    /* Show hamburger, hide search on mobile topbar */
+    .hamburger { display: flex; }
+    .topbar { padding: 0 14px; gap: 10px; height: 54px; }
+    .topbar-title { font-size: 15px; }
+    .topbar-search { display: none; }
+    .topbar-actions { gap: 6px; }
+    .icon-btn { width: 32px; height: 32px; font-size: 14px; }
+
+    /* Content padding */
+    .content { padding: 16px 14px 90px; }
+
+    /* Grids collapse to 1 column */
+    .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+    .two-col { grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+    .three-col { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .main-side { grid-template-columns: 1fr; gap: 12px; }
+
+    /* Stat card tweaks */
+    .stat-card { padding: 14px; }
+    .stat-val { font-size: 22px; }
+    .stat-icon { font-size: 18px; top: 12px; right: 12px; }
+
+    /* Tables scroll horizontally */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 520px; }
+
+    /* Alert banner wrap */
+    .alert-banner { flex-wrap: wrap; gap: 8px; font-size: 12px; }
+    .alert-banner .btn { width: 100%; justify-content: center; }
+
+    /* Room grid tighter */
+    .room-grid { grid-template-columns: repeat(auto-fill, minmax(72px,1fr)); gap: 8px; padding: 12px; }
+    .room-num { font-size: 13px; }
+
+    /* Req cards */
+    .req-card { flex-wrap: wrap; gap: 10px; }
+    .req-meta { margin-left: 0; }
+
+    /* Topbar: hide text labels on very small */
+    .topbar-title { font-size: 14px; }
+
+    /* Maintenance filter row wrap */
+    .mb16.flex-row { flex-wrap: wrap; gap: 6px; }
+    .mb16.flex-row .btn { font-size: 11px; padding: 5px 10px; }
+
+    /* Bottom nav visible */
+    .mobile-bottom-nav { display: block; }
+
+    /* Login: stack vertically, show collapsible panel */
+    .login-root { flex-direction: column; overflow-y: auto; min-height: 100vh; height: auto; }
+    .login-right { display: none; }
+    .login-left { padding: 32px 20px 24px; justify-content: flex-start; overflow-y: visible; min-height: unset; }
+    .login-brand { margin-bottom: 28px; }
+    .login-form-wrap { max-width: 100%; }
+    .login-heading { font-size: 22px; }
+    .login-quick { flex-direction: column; }
+
+    /* Mobile feature accordion */
+    .login-mobile-features { display: block; }
+    .login-mobile-features-hidden { display: none !important; }
+
+    /* Events */
+    .event-card { padding: 12px; gap: 10px; }
+    .event-date-box { padding: 8px 10px; min-width: 48px; }
+
+    /* Payment card */
+    .payment-amount { font-size: 28px; }
+
+    /* Modal full-width on mobile */
+    .modal { width: 95vw; padding: 20px; margin: 0 auto; }
+    .modal-overlay { padding: 16px; }
+
+    /* Inventory grid */
+    .inv-card { padding: 12px; }
+    .inv-icon { font-size: 22px; }
+
+    /* Flex rows that overflow */
+    .flex-row { flex-wrap: wrap; }
+
+    /* Log items */
+    .log-item { padding: 10px 14px; }
+    .log-name { font-size: 12.5px; }
+  }
+
+  /* Extra small: ≤ 390px */
+  @media (max-width: 390px) {
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .three-col { grid-template-columns: 1fr 1fr; }
+    .topbar-title { font-size: 13px; }
+    .content { padding: 12px 10px 90px; }
+  }
+
+  /* ── MOBILE FEATURE ACCORDION (login) ── */
+  .login-mobile-features { display: none; } /* hidden on desktop — shown via media query above */
+
+  .mob-feat-toggle {
+    width: 100%; padding: 13px 16px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--surface2);
+    color: var(--text-muted); font-family: var(--syne); font-size: 13px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.18s; letter-spacing: 0.3px;
+  }
+  .mob-feat-toggle:hover { border-color: var(--teal); color: var(--teal); }
+  .mob-feat-toggle.open { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
+  .mob-feat-toggle-left { display: flex; align-items: center; gap: 8px; }
+  .mob-feat-chevron {
+    font-size: 16px; transition: transform 0.25s cubic-bezier(.4,0,.2,1); display: inline-block;
+  }
+  .mob-feat-chevron.open { transform: rotate(180deg); }
+
+  .mob-feat-panel {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.35s cubic-bezier(.4,0,.2,1), opacity 0.25s ease;
+    opacity: 0;
+  }
+  .mob-feat-panel.open { max-height: 600px; opacity: 1; }
+
+  .mob-feat-inner {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; margin-top: 8px; overflow: hidden;
+  }
+
+  .mob-feat-item {
+    display: flex; align-items: center; gap: 12px; padding: 13px 14px;
+    border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s;
+  }
+  .mob-feat-item:last-child { border-bottom: none; }
+  .mob-feat-item:hover { background: var(--surface2); }
+  .mob-feat-item.active { background: var(--teal-dim); }
+
+  .mob-feat-icon {
+    width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center;
+    justify-content: center; font-size: 16px; flex-shrink: 0; background: var(--surface2);
+  }
+  .mob-feat-item.active .mob-feat-icon { background: rgba(0,212,170,0.2); }
+
+  .mob-feat-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .mob-feat-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; line-height: 1.45; }
+
+  .mob-feat-footer {
+    padding: 10px 14px; background: var(--surface2); border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-dim);
+  }
 `;
 
 // === DATA ===
@@ -1150,8 +1356,6 @@ const OCCUPANT_CREDENTIALS = [
   { username: "james.reyes", password: "resident123", name: "James Reyes", role: "Room 205 · Floor 2", initials: "JR", type: "occupant", room: "205" },
 ];
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 const FEATURES = [
   { icon: "🏠", color: "var(--teal-dim)", name: "Room Allocation", desc: "Smart auto-assignment with roommate matching and room swap handling." },
   { icon: "🔐", color: "var(--blue-dim)", name: "Entry & Attendance", desc: "Real-time tracking via QR, ID card, or facial recognition." },
@@ -1169,45 +1373,21 @@ function Login({ onLogin }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [remember, setRemember] = useState(false);
+  const [activeFeature, setActiveFeature] = useState(0);
+  const [featOpen, setFeatOpen] = useState(false);
 
   const switchTab = (tab) => { setRoleTab(tab); setUsername(""); setPassword(""); setError(""); };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setError("");
     if (!username || !password) { setError("Please enter both username and password."); return; }
     setLoading(true);
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          role: roleTab,
-        }),
-      });
-
-      let payload = null;
-      try {
-        payload = await response.json();
-      } catch {
-        payload = null;
-      }
-
-      if (!response.ok) {
-        setError(payload?.message || "Unable to sign in. Please try again.");
-        return;
-      }
-
-      onLogin(payload.user);
-    } catch {
-      setError("Cannot reach the API. Make sure backend server is running.");
-    } finally {
-      setLoading(false);
-    }
+    setTimeout(() => {
+      const pool = roleTab === "admin" ? ADMIN_CREDENTIALS : OCCUPANT_CREDENTIALS;
+      const match = pool.find(c => c.username === username && c.password === password);
+      if (match) { onLogin(match); }
+      else { setError("Invalid username or password. Please try again."); setLoading(false); }
+    }, 1000);
   };
 
   const handleKeyDown = (e) => { if (e.key === "Enter") handleSubmit(); };
@@ -1215,6 +1395,7 @@ function Login({ onLogin }) {
 
   const quickAccounts = roleTab === "admin" ? ADMIN_CREDENTIALS : OCCUPANT_CREDENTIALS;
   const isAdmin = roleTab === "admin";
+  const selected = FEATURES[activeFeature];
 
   return (
     <div className="login-root">
@@ -1305,23 +1486,88 @@ function Login({ onLogin }) {
               ))}
             </div>
           </div>
+
+          {/* ── MOBILE COLLAPSIBLE FEATURE PANEL ── */}
+          <div className="login-mobile-features" style={{ marginTop: 24 }}>
+            <button
+              className={`mob-feat-toggle ${featOpen ? "open" : ""}`}
+              onClick={() => setFeatOpen(o => !o)}
+            >
+              <span className="mob-feat-toggle-left">
+                <span>✦</span> Explore Platform Modules
+              </span>
+              <span className={`mob-feat-chevron ${featOpen ? "open" : ""}`}>▾</span>
+            </button>
+
+            <div className={`mob-feat-panel ${featOpen ? "open" : ""}`}>
+              <div className="mob-feat-inner">
+                {FEATURES.map((f, i) => (
+                  <div
+                    key={f.name}
+                    className={`mob-feat-item ${activeFeature === i ? "active" : ""}`}
+                    onClick={() => setActiveFeature(i)}
+                  >
+                    <div className="mob-feat-icon" style={{ background: activeFeature === i ? f.color : undefined }}>
+                      {f.icon}
+                    </div>
+                    <div>
+                      <div className="mob-feat-name">{f.name}</div>
+                      <div className="mob-feat-desc">{f.desc}</div>
+                    </div>
+                  </div>
+                ))}
+                <div className="mob-feat-footer">
+                  <span style={{ width: 6, height: 6, background: "var(--teal)", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
+                  System Online · v2.4.1 · © 2025 DormOS
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* ── FEATURE SIDEBAR MENU ── */}
       <div className="login-right">
-        <div className="login-right-title">Platform Features</div>
-        {FEATURES.map(f => (
-          <div key={f.name} className="login-feature">
-            <div className="login-feature-icon" style={{ background: f.color }}>{f.icon}</div>
+        <div className="lsb-header">
+          <div className="lsb-logo">
+            <div className="lsb-logo-icon">🏢</div>
             <div>
-              <div className="login-feature-name">{f.name}</div>
-              <div className="login-feature-desc">{f.desc}</div>
+              <div className="lsb-logo-name">DormOS</div>
+              <div className="lsb-logo-sub">Management Platform</div>
             </div>
           </div>
-        ))}
-        <div className="login-footer">
-          <div className="login-footer-text">© 2025 DormOS Management Platform. All rights reserved. For authorized personnel only.</div>
-          <div className="login-version"><span className="login-status-dot" /> System Online · v2.4.1</div>
+          <div className="lsb-nav-label">Platform Modules</div>
+        </div>
+
+        <div className="lsb-nav">
+          {FEATURES.map((f, i) => (
+            <div key={f.name} className={`lsb-item ${activeFeature === i ? "lsb-active" : ""}`}
+              onClick={() => setActiveFeature(i)}>
+              <div className="lsb-item-icon" style={{ background: activeFeature === i ? f.color : undefined }}>{f.icon}</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="lsb-item-name">{f.name}</div>
+              </div>
+              <span className="lsb-item-arrow">›</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Detail card for selected feature */}
+        <div className="lsb-detail" style={{ borderColor: "var(--border)" }}>
+          <div className="lsb-detail-title">
+            <span>{selected.icon}</span> {selected.name}
+          </div>
+          <div className="lsb-detail-body">{selected.desc}</div>
+        </div>
+
+        <div className="lsb-footer">
+          <div className="lsb-status">
+            <span className="lsb-status-dot" />
+            System Online · v2.4.1
+          </div>
+          <div style={{ fontSize: 10, color: "var(--text-dim)", marginTop: 5, lineHeight: 1.5 }}>
+            © 2025 DormOS · For authorized personnel only.
+          </div>
         </div>
       </div>
     </div>
@@ -1537,12 +1783,26 @@ function OccupantPortal({ user, onLogout }) {
   };
 
   const pageTitles = { home: "My Dashboard", mypayments: "My Payments", myrequest: "Maintenance Request", events: "Events & Notices", inventory: "Borrow Items" };
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const closeSidebar = () => setSidebarOpen(false);
+  const navigate = (p) => { setPage(p); closeSidebar(); };
+
+  const MOBILE_NAVS = [
+    { id: "home", label: "Home", icon: "⊞" },
+    { id: "mypayments", label: "Payments", icon: "💳" },
+    { id: "myrequest", label: "Requests", icon: "🔧" },
+    { id: "events", label: "Events", icon: "📅" },
+    { id: "inventory", label: "Items", icon: "📦" },
+  ];
 
   return (
     <>
       <style>{styles}</style>
+      {/* Drawer overlay */}
+      <div className={`drawer-overlay ${sidebarOpen ? "open" : ""}`} onClick={closeSidebar} />
+
       <div className="app">
-        <div className="sidebar">
+        <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
           <div className="sidebar-logo">
             <div className="logo-icon">🏢</div>
             <div>
@@ -1559,7 +1819,7 @@ function OccupantPortal({ user, onLogout }) {
                 <div key={nav.id}>
                   {showSection && <div className="nav-section">{nav.section}</div>}
                   <button className={`nav-btn ${page === nav.id ? "active" : ""}`}
-                    onClick={() => setPage(nav.id)}
+                    onClick={() => navigate(nav.id)}
                     style={page === nav.id ? { background: "var(--blue-dim)", color: "var(--blue)" } : {}}>
                     <span className="nav-icon">{nav.icon}</span>
                     {nav.label}
@@ -1586,15 +1846,30 @@ function OccupantPortal({ user, onLogout }) {
 
         <div className="main">
           <div className="topbar">
+            <button className="hamburger" onClick={() => setSidebarOpen(o => !o)} aria-label="Menu">
+              <span /><span /><span />
+            </button>
             <div className="topbar-title" style={{ fontFamily: "var(--syne)" }}>{pageTitles[page]}</div>
             <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
-              <span className="badge blue">🏠 Room {user.room}</span>
+              <span className="badge blue" style={{ whiteSpace: "nowrap" }}>🏠 {user.room}</span>
               <button className="icon-btn" title="Notifications">🔔</button>
             </div>
           </div>
           <div className="content">{renderPage()}</div>
         </div>
       </div>
+
+      {/* Mobile bottom nav */}
+      <nav className="mobile-bottom-nav">
+        <div className="mobile-bottom-nav-inner">
+          {MOBILE_NAVS.map(n => (
+            <button key={n.id} className={`mob-nav-btn ${page === n.id ? "active-blue" : ""}`} onClick={() => navigate(n.id)}>
+              <span className="mob-icon">{n.icon}</span>
+              {n.label}
+            </button>
+          ))}
+        </div>
+      </nav>
     </>
   );
 }
@@ -1603,8 +1878,13 @@ const PAGE_TITLES = { dashboard: "Overview Dashboard", rooms: "Room Allocation",
 export default function App() {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const PageComponent = user ? PAGE_COMPONENTS[page] : null;
   let lastSection = null;
+
+  const closeSidebar = () => setSidebarOpen(false);
+  const navigate = (p) => { setPage(p); closeSidebar(); };
+  const logout = () => { setUser(null); setPage("dashboard"); };
 
   if (!user) return (
     <>
@@ -1613,13 +1893,24 @@ export default function App() {
     </>
   );
 
-  if (user.type === "occupant") return <OccupantPortal user={user} onLogout={() => { setUser(null); setPage("dashboard"); }} />;
+  if (user.type === "occupant") return <OccupantPortal user={user} onLogout={logout} />;
+
+  const ADMIN_MOBILE_NAVS = [
+    { id: "dashboard", label: "Home", icon: "⊞" },
+    { id: "rooms", label: "Rooms", icon: "🏠" },
+    { id: "entry", label: "Entry", icon: "🔐" },
+    { id: "maintenance", label: "Maintenance", icon: "🔧" },
+    { id: "payments", label: "Payments", icon: "💳" },
+  ];
 
   return (
     <>
       <style>{styles}</style>
+      {/* Drawer overlay */}
+      <div className={`drawer-overlay ${sidebarOpen ? "open" : ""}`} onClick={closeSidebar} />
+
       <div className="app">
-        <div className="sidebar">
+        <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
           <div className="sidebar-logo">
             <div className="logo-icon">🏢</div>
             <div>
@@ -1635,7 +1926,7 @@ export default function App() {
               return (
                 <div key={nav.id}>
                   {showSection && <div className="nav-section">{nav.section}</div>}
-                  <button className={`nav-btn ${page === nav.id ? "active" : ""}`} onClick={() => setPage(nav.id)}>
+                  <button className={`nav-btn ${page === nav.id ? "active" : ""}`} onClick={() => navigate(nav.id)}>
                     <span className="nav-icon">{nav.icon}</span>
                     {nav.label}
                     {nav.badge && <span className="nav-badge">{nav.badge}</span>}
@@ -1652,7 +1943,7 @@ export default function App() {
                 <div className="user-name">{user.name}</div>
                 <div className="user-role">{user.role}</div>
               </div>
-              <button onClick={() => { setUser(null); setPage("dashboard"); }} title="Logout"
+              <button onClick={logout} title="Logout"
                 style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-dim)", fontSize: 16, padding: 2, transition: "color 0.15s" }}
                 onMouseEnter={e => e.target.style.color = "var(--rose)"}
                 onMouseLeave={e => e.target.style.color = "var(--text-dim)"}>⏏</button>
@@ -1662,6 +1953,9 @@ export default function App() {
 
         <div className="main">
           <div className="topbar">
+            <button className="hamburger" onClick={() => setSidebarOpen(o => !o)} aria-label="Menu">
+              <span /><span /><span />
+            </button>
             <div className="topbar-title">{PAGE_TITLES[page]}</div>
             <div className="topbar-search">
               <span style={{ color: "var(--text-dim)" }}>🔍</span>
@@ -1677,6 +1971,18 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* Mobile bottom nav — 5 main admin pages */}
+      <nav className="mobile-bottom-nav">
+        <div className="mobile-bottom-nav-inner">
+          {ADMIN_MOBILE_NAVS.map(n => (
+            <button key={n.id} className={`mob-nav-btn ${page === n.id ? "active" : ""}`} onClick={() => navigate(n.id)}>
+              <span className="mob-icon">{n.icon}</span>
+              {n.label}
+            </button>
+          ))}
+        </div>
+      </nav>
     </>
   );
 }
