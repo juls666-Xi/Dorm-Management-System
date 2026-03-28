@@ -1397,7 +1397,10 @@ function Login({ onLogin }) {
     setTimeout(() => {
       const pool = roleTab === "admin" ? ADMIN_CREDENTIALS : OCCUPANT_CREDENTIALS;
       const match = pool.find(c => c.username === username && c.password === password);
-      if (match) { onLogin(match); }
+      if (match) { 
+        console.log("Login successful:", match);
+        onLogin(match); 
+      }
       else { setError("Invalid username or password. Please try again."); setLoading(false); }
     }, 1000);
   };
@@ -2101,14 +2104,24 @@ export default function App() {
   const navigate = (p) => { setPage(p); closeSidebar(); };
   const logout = () => { setUser(null); setPage("dashboard"); };
 
-  if (!user) return (
-    <>
-      <style>{styles}</style>
-      <Login onLogin={setUser} />
-    </>
-  );
+  console.log("App state:", { user, page, PageComponent: PageComponent?.name });
 
-  if (user.type === "occupant") return <OccupantPortal user={user} onLogout={logout} />;
+  if (!user) {
+    console.log("No user, showing login");
+    return (
+      <>
+        <style>{styles}</style>
+        <Login onLogin={setUser} />
+      </>
+    );
+  }
+
+  if (user.type === "occupant") {
+    console.log("Occupant user, showing occupant portal");
+    return <OccupantPortal user={user} onLogout={logout} />;
+  }
+
+  console.log("Admin user, showing admin dashboard");
 
   const ADMIN_MOBILE_NAVS = [
     { id: "dashboard", label: "Home", icon: "⊞" },
