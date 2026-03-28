@@ -1,9 +1,9 @@
 {
   "version": 2,
   "buildCommand": "npm run install:all && npm run build",
-  "devCommand": "npm run dev",
+  "devCommand": "npm run dev --prefix client",
   "framework": "vite",
-  "public": "client",
+  "outputDirectory": "client/dist",
   "cleanUrls": true,
   "headers": [
     {
